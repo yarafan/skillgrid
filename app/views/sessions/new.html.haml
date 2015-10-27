@@ -1,0 +1,13 @@
+- if flash[:alert]
+  %p.text-danger= flash[:alert]
+%h1 Login
+.login-form
+  = form_tag sessions_path do
+    .form-group
+      = label_tag :email
+      = text_field_tag :email, nil, class: 'form-control'
+    .form-group
+      = label_tag :password
+      = password_field_tag :password, nil, class: 'form-control'
+    .actions
+    = submit_tag 'Login', class: 'btn btn-default'
