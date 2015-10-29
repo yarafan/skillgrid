@@ -1,13 +1,18 @@
 %p.text-success= notice
 %h1 Listing Users
-%table
+%table.table
   %thead
     %tr
       %th{ colspan: 3 }
   %tbody
     - @users.each do |user|
       %tr
-        %td= link_to 'Show', user
-        %td= link_to 'Edit', edit_user_path(user)
-        %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+        %td
+          = user.name
+        %td
+          = user.email
+        %td
+          %p= link_to 'Show', user
+          %p= link_to 'Edit', edit_user_path(user)
+          %p= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 = link_to 'New User', new_user_path
