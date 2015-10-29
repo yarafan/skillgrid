@@ -1,0 +1,21 @@
+// Place all the styles related to the Products controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.product-form {
+  width: 30%;
+  textarea.form-control {
+    height: 200px;
+  }
+}
+.product-title {
+  font-weight: bold;
+}
+.full-product {
+  h1 {
+    margin: 20px 0;
+  }
+  .product-description {
+    width: 55%;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,11 @@
+%p.text-success= notice
+.row.full-product
+  .col-md-4
+    .full-image
+      = image_tag @product.image.url(:large)
+  .col-md-8
+    %h1.text-uppercase
+      = @product.title
+    .product-description.text-justify
+      = @product.description
+= link_to 'Back', products_path
