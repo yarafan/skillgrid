@@ -3,11 +3,18 @@ class User < ActiveRecord::Base
   before_save :encrypt
 
   has_many :products, dependent: :destroy
+  has_attached_file :photo, styles: { thumb: '100x100', large: '500x500' }
+  has_attached_file :avatar, styles: { thumb: '100x100', large: '500x500' }
 
-  validates :name, presence: true, length: { minimum: 5 }
-  validates :email, presence: true, format: { with: /[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z]+{2,4}/, message: 'has invalid format' }
-  validates :password, presence: true, confirmation: true, length: { minimum: 6 }
-  validates :password_confirmation, presence: true
+  with_options if: :admin? do |admin|
+    admin.validates :name, presence: true
+    admin.validates :surname, presence: true
+    admin.validates :email, presence: true
+    admin.validates :password, presence: true, length: { minimum: 10 }
+    admin.validates :birthday, presence: true
+    admin.validates_attachment :avatar, presence: true, content_type: { content_type: /\Aimage/ }
+    admin.validates_attachment :photo, presence: true, content_type: { content_type: /\Aimage/ }
+  end
 
   def encrypt
     salt = self.pass_salt = BCrypt::Engine.generate_salt
