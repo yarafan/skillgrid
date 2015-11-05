@@ -17,4 +17,5 @@
 /tmp
 # Ignore directory with images
 /public/system/*
-*.swp
+*.swo
+tags
