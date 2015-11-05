@@ -12,6 +12,9 @@
     = f.label :description
     = f.text_area :description, class: 'form-control'
   .form-group
+    = f.label :shop_title
+    = f.text_field :shop_title, value: current_user.shop, class: 'form-control', readonly: true
+  .form-group
     = f.label :image
     = f.file_field :image
   .actions

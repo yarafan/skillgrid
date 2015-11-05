@@ -6,6 +6,9 @@
   .col-md-8
     %h1.text-uppercase
       = @product.title
+    - unless current_user.guest?
+      .product-shop.text-justify
+        Shop: #{@product.shop_title}
     .product-description.text-justify
       = @product.description
 = link_to 'Back', products_path

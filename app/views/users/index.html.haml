@@ -8,11 +8,8 @@
     - @users.each do |user|
       %tr
         %td
-          = user.name
-        %td
           = user.email
         %td
           %p= link_to 'Show', user
-          %p= link_to 'Edit', edit_user_path(user)
+          %p= link_to 'Edit', edit_user_role_path(user.role, user)
           %p= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
-= link_to 'New User', new_user_path

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  ROLES = %w(admin owner guest)
   attr_accessor :password, :password_confirmation
   before_save :encrypt
 
@@ -16,9 +17,25 @@ class User < ActiveRecord::Base
     admin.validates_attachment :photo, presence: true, content_type: { content_type: /\Aimage/ }
   end
 
+  with_options if: :owner? do |owner|
+    owner.validates :shop, presence: true
+    owner.validates :email, presence: true
+    owner.validates :password, presence: true, length: { minimum: 8 }
+    owner.validates_attachment :avatar, presence: true, content_type: { content_type: /\Aimage/ }
+  end
+
+  with_options if: :guest? do |guest|
+    guest.validates :email, presence: true
+    guest.validates :password, presence: true, length: { minimum: 6 }
+  end
+
   def encrypt
     salt = self.pass_salt = BCrypt::Engine.generate_salt
     self.pass_hash = BCrypt::Engine.hash_secret(password, salt) if password
+  end
+
+  def role
+    ROLES.each { |role| return role if send("#{role}?") }
   end
 
   def self.authenticate(email, password)
