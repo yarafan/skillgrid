@@ -20,6 +20,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    render "edit_#{params[:role]}"
   end
 
   # POST /users

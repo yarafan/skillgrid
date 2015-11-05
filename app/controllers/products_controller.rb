@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
+    return @products = Product.where(pro: true) if current_user.try(:guest)
     @products = Product.all
   end
 
@@ -28,28 +29,20 @@ class ProductsController < ApplicationController
     user = User.find(session[:user_id])
     redirect_to products_url unless user
     @product = user.products.create(product_params)
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render :show, status: :created, location: @product }
-      else
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.save
+      redirect_to @product, notice: 'Product was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.update(product_params)
+      redirect_to @product, notice: 'Product was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -57,10 +50,14 @@ class ProductsController < ApplicationController
   # DELETE /products/1.json
   def destroy
     @product.destroy
-    respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to products_url, notice: 'Product was successfully destroyed.'
+  end
+
+  def make_pro
+    product = Product.find(params[:id])
+    product.toggle!(:pro)
+    product.save
+    redirect_to products_path, notice: "Product PRO status  changed to #{product.pro?}"
   end
 
   private
@@ -74,6 +71,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:title, :description, :image)
+    params.require(:product).permit(:title, :description, :image, :shop_title)
   end
 end
