@@ -6,9 +6,11 @@
   .col-md-8
     %h1.text-uppercase
       = @product.title
-    - unless current_user.guest?
+    - unless current_user.try(:guest)
       .product-shop.text-justify
         Shop: #{@product.shop_title}
     .product-description.text-justify
       = @product.description
+    - if !current_user.nil? && current_user.guest?
+      = button_to 'Buy', buy_product_path, class: 'btn btn-default'
 = link_to 'Back', products_path
