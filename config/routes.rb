@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'users/edit/:role/:id' => 'users#edit', as: 'edit_user_role'
   get 'products/make_pro/:id' => 'products#make_pro', as: 'toggle_pro'
   post 'product/buy/:id' => 'products#buy_product', as: 'buy_product'
+  post 'user/:id/make/:role' => 'users#change_role', as: 'change_role'
   resources :sessions, only: [:new, :create, :destroy]
   root 'products#index'
   # The priority is based upon order of creation: first created -> highest priority.
