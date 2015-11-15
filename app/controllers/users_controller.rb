@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :check_admin, only: [:show, :index]
 
   # GET /users
   # GET /users.json
@@ -52,7 +53,18 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: 'User was successfully destroyed.'
   end
 
+  def change_role
+    user = User.find(params[:id])
+    User::ROLES.each { |role| user.update_column("#{role}", false) }
+    user.update_column("#{params[:role]}", true)
+    redirect_to users_path
+  end
+
   private
+
+  def check_admin
+    redirect_to products_path unless current_user.try(:admin)
+  end
 
   def set_user
     @user = User.find(params[:id])
