@@ -8,7 +8,15 @@
     - @users.each do |user|
       %tr
         %td
+          = user.name
+        %td
           = user.email
+        %td
+          = user.role
+        %td
+          %p= button_to 'Toggle admin', change_role_path(user, 'admin'), class: 'btn btn-default', method: :post
+          %p= button_to 'Toggle owner', change_role_path(user, 'owner'), class: 'btn btn-default', method: :post
+          %p= button_to 'Toggle guest', change_role_path(user, 'guest'), class: 'btn btn-default', method: :post
         %td
           %p= link_to 'Show', user
           %p= link_to 'Edit', edit_user_role_path(user.role, user)
