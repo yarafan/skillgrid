@@ -34,11 +34,9 @@ ActiveRecord::Schema.define(version: 20151104130531) do
     t.string   "email"
     t.string   "pass_hash"
     t.string   "pass_salt"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.boolean  "admin",               default: false
-    t.boolean  "owner",               default: false
-    t.boolean  "guest",               default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "role",                default: 0
     t.string   "surname"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"

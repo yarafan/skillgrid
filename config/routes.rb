@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # Занести в ресурсы
   resources :products
   resources :users do
     resources :products

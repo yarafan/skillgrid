@@ -1,14 +1,10 @@
-require 'net/http'
-require 'json'
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :check_user, except: [:index, :show]
   before_action :check_email, only: [:buy_product]
 
   def index
-    ordinary_products = Product.ordinary
-    pro_products = Product.pro
-    @products = { ordinary:  ordinary_products, pro: pro_products }
+    @products = current_user.nil? ? Product.ordinary : Product.all
   end
 
   def show
@@ -22,9 +18,8 @@ class ProductsController < ApplicationController
   end
 
   def create
-    user = User.find(session[:user_id])
-    redirect_to products_url unless user
-    @product = user.products.create(product_params)
+    redirect_to products_url unless current_user
+    @product = current_user.products.create(product_params)
     if @product.save
       redirect_to @product, notice: 'Product was successfully created.'
     else
@@ -53,6 +48,7 @@ class ProductsController < ApplicationController
   end
 
   def buy_product
+    # Распихать по классам
     product = Product.find(params[:id])
     record = json_record
     if check_record(record)

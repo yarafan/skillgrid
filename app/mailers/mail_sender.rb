@@ -1,5 +1,6 @@
 class MailSender < ApplicationMailer
   default from: 'no-reply@mail.com'
+  # разбить на 2 класса 
 
   def buy_success(user, product)
     @user = user

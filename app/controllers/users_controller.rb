@@ -1,31 +1,23 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :change_role]
   before_action :check_admin, only: [:show, :index]
 
-  # GET /users
-  # GET /users.json
   def index
     @users = User.all
   end
 
-  # GET /users/1
-  # GET /users/1.json
   def show
   end
 
-  # GET /users/new
   def new
     @user = User.new
     render "new_#{params[:role]}"
   end
 
-  # GET /users/1/edit
   def edit
     render "edit_#{params[:role]}"
   end
 
-  # POST /users
-  # POST /users.json
   def create
     @user = User.new(user_params)
     @user.send("#{params[:role]}=", true)
@@ -36,8 +28,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def update
     if @user.update(user_params)
       redirect_to @user, notice: 'User was successfully updated.'
@@ -46,24 +36,21 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     @user.destroy
     redirect_to users_url, notice: 'User was successfully destroyed.'
   end
 
   def change_role
-    user = User.find(params[:id])
-    User::ROLES.each { |role| user.update_column("#{role}", false) }
-    user.update_column("#{params[:role]}", true)
+    @user.role = params[:role]
+    @user.save!
     redirect_to users_path
   end
 
   private
 
   def check_admin
-    redirect_to products_path unless current_user.try(:admin)
+    redirect_to products_path unless current_user.try(:admin?)
   end
 
   def set_user
