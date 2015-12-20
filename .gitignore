@@ -17,5 +17,9 @@
 /tmp
 # Ignore directory with images
 /public/system/*
-*.swo
 tags
+.csscomb.json
+.eslintrc
+.haml-lint.yml
+.rubocop.yml
+skillgrid.sh
