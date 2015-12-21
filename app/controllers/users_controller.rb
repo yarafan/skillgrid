@@ -20,8 +20,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.send("#{params[:role]}=", true)
-    if @user.save
+    @user.role = params[:role]
+    validator = UserRoleValidator.new(@user).validator
+    if validator.valid?
+      @user.save!(validate: false)
       redirect_to @user, notice: 'User was successfully created.'
     else
       render "new_#{params[:role]}"
