@@ -17,9 +17,9 @@
           %p
             = link_to 'Sign in', new_session_path
           %p
-            = link_to 'Registration as admin', user_role_path(:admin)
-            = link_to 'Registration as owner', user_role_path(:owner)
-            = link_to 'Registration as guest', user_role_path(:guest)
+            = link_to 'Registration as admin', new_role_users_path(:admin)
+            = link_to 'Registration as owner', new_role_users_path(:owner)
+            = link_to 'Registration as guest', new_role_users_path(:guest)
     .row
       .col-md-12
         = yield

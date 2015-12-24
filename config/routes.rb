@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
-  # Занести в ресурсы
-  resources :products
+  root 'products#index'
+  resources :products do
+    get 'make_pro', on: :member, action: :make_pro, as: 'toggle_pro'
+    post 'buy', on: :member, action: :buy_product, as: 'buy'
+  end
   resources :users do
+    get 'new/:role', on: :collection, action: :new, as: 'new_role'
+    get 'edit/:role/', on: :member, action: :edit, as: 'edit_role'
+    post 'make/:role', on: :member, action: :change_role, as: 'change_role'
     resources :products
   end
-  get 'users/new/:role' => 'users#new', as: 'user_role'
-  get 'users/edit/:role/:id' => 'users#edit', as: 'edit_user_role'
-  get 'products/make_pro/:id' => 'products#make_pro', as: 'toggle_pro'
-  post 'product/buy/:id' => 'products#buy_product', as: 'buy_product'
-  post 'user/:id/make/:role' => 'users#change_role', as: 'change_role'
   resources :sessions, only: [:new, :create, :destroy]
-  root 'products#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

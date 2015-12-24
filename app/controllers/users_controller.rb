@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
   def change_role
     @user.role = params[:role]
-    @user.save!
+    @user.save!(validate: false)
     redirect_to users_path
   end
 

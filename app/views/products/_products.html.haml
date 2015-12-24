@@ -5,7 +5,7 @@
   - unless current_user.try(:guest?)
     %td= product.user.shop
   - if current_user.try(:admin?)
-    %td= link_to 'Toggle PRO', toggle_pro_path(product)
+    %td= link_to 'Toggle PRO', toggle_pro_product_path(product)
   %td
     %p= link_to 'Show', product_path(product.id)
     - if current_user.try(:admin?) || current_user?(product.user)

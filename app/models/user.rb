@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
     self.pass_hash = BCrypt::Engine.hash_secret(password, salt) if password
   end
 
+  def self.admin_emails
+    User.where(role: User.roles[:admin]).pluck(:email)
+  end
+
   def self.authenticate(email, password)
     user = find_by_email(email)
     if user && user.pass_hash == BCrypt::Engine.hash_secret(password, user.pass_salt)

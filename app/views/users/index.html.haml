@@ -14,10 +14,10 @@
         %td
           = user.role
         %td
-          %p= button_to 'Toggle admin', change_role_path(user, 'admin'), class: 'btn btn-default', method: :post
-          %p= button_to 'Toggle owner', change_role_path(user, 'owner'), class: 'btn btn-default', method: :post
-          %p= button_to 'Toggle guest', change_role_path(user, 'guest'), class: 'btn btn-default', method: :post
+          %p= button_to 'Toggle admin', change_role_user_path(user, 'admin'), class: 'btn btn-default', method: :post
+          %p= button_to 'Toggle owner', change_role_user_path(user, 'owner'), class: 'btn btn-default', method: :post
+          %p= button_to 'Toggle guest', change_role_user_path(user, 'guest'), class: 'btn btn-default', method: :post
         %td
           %p= link_to 'Show', user
-          %p= link_to 'Edit', edit_user_role_path(user.role, user)
+          %p= link_to 'Edit', edit_role_user_path(user, user.role)
           %p= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
