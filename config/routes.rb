@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
   root 'products#index'
   resources :products do
-    get 'make_pro', on: :member, action: :make_pro, as: 'toggle_pro'
-    post 'buy', on: :member, action: :buy_product, as: 'buy'
+    member do
+      get 'make_pro', action: :make_pro, as: 'toggle_pro'
+      post 'buy', action: :buy_product, as: 'buy'
+    end
   end
   resources :users do
     get 'new/:role', on: :collection, action: :new, as: 'new_role'
-    get 'edit/:role/', on: :member, action: :edit, as: 'edit_role'
-    post 'make/:role', on: :member, action: :change_role, as: 'change_role'
+    member do
+      get 'edit/:role/', action: :edit, as: 'edit_role'
+      post 'make/:role', action: :change_role, as: 'change_role'
+    end
     resources :products
   end
   resources :sessions, only: [:new, :create, :destroy]

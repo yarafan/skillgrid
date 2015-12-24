@@ -1,16 +1,17 @@
 class User < ActiveRecord::Base
-  enum role: [:guest, :owner, :admin]
   attr_accessor :password, :password_confirmation
-  before_save :encrypt
 
   has_many :products, dependent: :destroy
-  has_attached_file :photo, styles: { thumb: '100x100', large: '500x500' }
-  has_attached_file :avatar, styles: { thumb: '100x100', large: '500x500' }
 
   # TODO
   # Incorporate Paperclip validations to roles validators
   validates_attachment :avatar, presence: true, content_type: { content_type: /\Aimage/ }
   validates_attachment :photo, presence: true, content_type: { content_type: /\Aimage/ }
+
+  before_save :encrypt
+  enum role: [:guest, :owner, :admin]
+  has_attached_file :photo, styles: { thumb: '100x100', large: '500x500' }
+  has_attached_file :avatar, styles: { thumb: '100x100', large: '500x500' }
 
   def encrypt
     salt = self.pass_salt = BCrypt::Engine.generate_salt
