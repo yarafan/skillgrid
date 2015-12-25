@@ -7,10 +7,11 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 User.delete_all
 Product.delete_all
-User.create(name: 'Admin', email: 'admin@mail.com',
-            password: '1111111111', password_confirmation: '1111111111', role: 2)
-o = User.create(name: 'Owner', email: 'owner@mail.com',
-                password: '11111111', password_confirmation: '11111111', shop: 'Shop', role: 1)
+User.new(name: 'Admin', email: 'admin@mail.com',
+         password: '1111111111', password_confirmation: '1111111111', role: 2).save!(validate: false)
+o = User.new(name: 'Owner', email: 'owner@mail.com',
+             password: '11111111', password_confirmation: '11111111', shop: 'Shop', role: 1)
+o.save!(validate: false)
 User.create(name: 'Guest', email: 'g@mail.com',
             password: '111111', password_confirmation: '111111', role: 0)
 User.create(name: 'Guest1', email: 'g@mail.ru',
